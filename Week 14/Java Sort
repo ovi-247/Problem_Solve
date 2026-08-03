@@ -1,1 +1,72 @@
 
+import java.util.*;
+
+class Student {
+
+    private int studentId;
+    private String studentName;
+    private double studentCgpa;
+
+    public Student(int studentId, String studentName, double studentCgpa) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.studentCgpa = studentCgpa;
+    }
+
+    public int getId() {
+        return studentId;
+    }
+
+    public String getFname() {
+        return studentName;
+    }
+
+    public double getCgpa() {
+        return studentCgpa;
+    }
+}
+
+class Solution {
+
+    public static void main(String[] args) {
+
+        Scanner input = new Scanner(System.in);
+
+        int totalStudents = input.nextInt();
+        List<Student> studentList = new ArrayList<>();
+
+        for (int index = 0; index < totalStudents; index++) {
+
+            int id = input.nextInt();
+            String name = input.next();
+            double cgpa = input.nextDouble();
+
+            studentList.add(new Student(id, name, cgpa));
+        }
+
+        Collections.sort(studentList, new Comparator<Student>() {
+
+            @Override
+            public int compare(Student first, Student second) {
+
+                int cgpaResult = Double.compare(second.getCgpa(), first.getCgpa());
+
+                if (cgpaResult != 0) {
+                    return cgpaResult;
+                }
+
+                int nameResult = first.getFname().compareTo(second.getFname());
+
+                if (nameResult != 0) {
+                    return nameResult;
+                }
+
+                return Integer.compare(first.getId(), second.getId());
+            }
+        });
+
+        for (Student student : studentList) {
+            System.out.println(student.getFname());
+        }
+    }
+}
