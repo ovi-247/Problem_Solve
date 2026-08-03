@@ -1,1 +1,27 @@
 
+import java.util.*;
+
+public class ExceptionHandling {
+
+    public static void main(String[] args) {
+
+        Scanner input = new Scanner(System.in);
+
+        try {
+
+            int firstNumber = input.nextInt();
+            int secondNumber = input.nextInt();
+
+            int result = firstNumber / secondNumber;
+            System.out.println(result);
+
+        } catch (InputMismatchException exception) {
+
+            System.out.println("java.util.InputMismatchException");
+
+        } catch (ArithmeticException exception) {
+
+            System.out.println(exception);
+        }
+    }
+}
