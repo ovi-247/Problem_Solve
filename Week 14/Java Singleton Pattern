@@ -1,1 +1,15 @@
 
+class Singleton {
+
+    private static final Singleton singleInstance = new Singleton();
+
+    public String str;
+
+    private Singleton() {
+
+    }
+
+    public static Singleton getSingleInstance() {
+        return singleInstance;
+    }
+}
