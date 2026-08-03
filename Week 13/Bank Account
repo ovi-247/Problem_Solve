@@ -1,1 +1,97 @@
 
+class BankAccountActionInvalidException extends Exception {
+
+    public BankAccountActionInvalidException(String message) {
+        super(message);
+    }
+}
+
+class BankAccount {
+
+    private int availableBalance;
+    private boolean active = false;
+
+    public synchronized void open() throws BankAccountActionInvalidException {
+
+        if (active) {
+            throw new BankAccountActionInvalidException("Account is already open");
+        }
+
+        availableBalance = 0;
+        active = true;
+    }
+
+    public synchronized void close() throws BankAccountActionInvalidException {
+
+        ensureAccountOpen();
+        active = false;
+    }
+
+    public synchronized int getBalance() throws BankAccountActionInvalidException {
+
+        ensureAccountOpen();
+        return availableBalance;
+    }
+
+    public synchronized void deposit(int depositAmount) throws BankAccountActionInvalidException {
+
+        ensureAccountOpen();
+
+        if (depositAmount < 0) {
+            throw new BankAccountActionInvalidException("Deposit amount can not be negative.");
+        }
+
+        availableBalance += depositAmount;
+    }
+
+    public synchronized void withdraw(int withdrawAmount) throws BankAccountActionInvalidException {
+
+        ensureAccountOpen();
+
+        if (withdrawAmount < 0) {
+            throw new BankAccountActionInvalidException("Withdraw amount cannot be negative.");
+        }
+
+        if (withdrawAmount > availableBalance) {
+            throw new BankAccountActionInvalidException("Insufficient balance");
+        }
+
+        availableBalance -= withdrawAmount;
+    }
+
+    private synchronized void ensureAccountOpen() throws BankAccountActionInvalidException {
+
+        if (!active) {
+            throw new BankAccountActionInvalidException("Account is already closed");
+        }
+    }
+}
+
+public class BankAccountMain {
+
+    public static void main(String[] args) {
+
+        BankAccount account = new BankAccount();
+
+        try {
+
+            account.open();
+
+            account.deposit(1000);
+            System.out.println("Balance: " + account.getBalance());
+
+            account.withdraw(300);
+            System.out.println("Balance: " + account.getBalance());
+
+            account.deposit(500);
+            System.out.println("Balance: " + account.getBalance());
+
+            account.close();
+            account.getBalance();
+
+        } catch (BankAccountActionInvalidException e) {
+
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
