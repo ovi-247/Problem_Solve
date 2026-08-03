@@ -1,1 +1,65 @@
 
+import java.io.*;
+import java.net.*;
+
+public class Client {
+
+    private Socket clientSocket;
+    private DataInputStream keyboard;
+    private DataOutputStream serverOutput;
+
+    public Client(String host, int port) {
+
+        try {
+            clientSocket = new Socket(host, port);
+
+            keyboard = new DataInputStream(System.in);
+            serverOutput = new DataOutputStream(clientSocket.getOutputStream());
+
+            System.out.println("Connection Established");
+
+            String message;
+
+            while (true) {
+
+                message = keyboard.readLine();
+                serverOutput.writeUTF(message);
+
+                if (message.equalsIgnoreCase("Over")) {
+                    break;
+                }
+            }
+
+        } catch (UnknownHostException e) {
+
+            System.out.println(e);
+
+        } catch (IOException e) {
+
+            System.out.println(e);
+
+        } finally {
+
+            try {
+
+                if (keyboard != null)
+                    keyboard.close();
+
+                if (serverOutput != null)
+                    serverOutput.close();
+
+                if (clientSocket != null)
+                    clientSocket.close();
+
+            } catch (IOException e) {
+
+                System.out.println(e);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+        new Client("127.0.0.1", 5000);
+    }
+}
