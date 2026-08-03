@@ -1,1 +1,17 @@
 
+class Soccer extends Sports {
+
+    @Override
+    String getName() {
+        return "Soccer Class";
+    }
+
+    @Override
+    void getNumberOfTeamMembers() {
+
+        String sportName = getName();
+        int players = 11;
+
+        System.out.println("Each team has " + players + " players in " + sportName);
+    }
+}
