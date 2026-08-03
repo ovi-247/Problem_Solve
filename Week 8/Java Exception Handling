@@ -1,13 +1,43 @@
 
-class Calculator {
 
-    public int power(int base, int exponent) throws Exception {
 
-        if (base < 0 || exponent < 0) {
-            throw new Exception("n and p should be non-negative");
+import java.util.*;
+
+class MyCalculator {
+
+    public long power(int base, int exponent) throws Exception {
+
+        if (base == 0 && exponent == 0) {
+            throw new Exception("n and p should not be zero.");
         }
 
-        int answer = (int) Math.pow(base, exponent);
-        return answer;
+        if (base < 0 || exponent < 0) {
+            throw new Exception("n or p should not be negative.");
+        }
+
+        long result = (long) Math.pow(base, exponent);
+        return result;
+    }
+}
+
+public class ExceptionHandling {
+
+    public static void main(String[] args) {
+
+        Scanner input = new Scanner(System.in);
+        MyCalculator calculator = new MyCalculator();
+
+        while (input.hasNextInt()) {
+
+            int firstValue = input.nextInt();
+            int secondValue = input.nextInt();
+
+            try {
+                long answer = calculator.power(firstValue, secondValue);
+                System.out.println(answer);
+            } catch (Exception exception) {
+                System.out.println(exception);
+            }
+        }
     }
 }
