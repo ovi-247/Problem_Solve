@@ -1,43 +1,29 @@
 
-import java.util.Scanner;
+
+import java.util.*;
 
 abstract class Book {
     String title;
-    String author;
-
-    Book(String t, String a) {
-        title = t;
-        author = a;
+    abstract void setTitle(String s);
+    String getTitle() {
+        return title;
     }
-
-    abstract void display();
 }
 
 class MyBook extends Book {
-    int cost;
-
-    MyBook(String t, String a, int p) {
-        super(t, a);
-        cost = p;
-    }
-
     @Override
-    void display() {
-        System.out.println("Title: " + title);
-        System.out.println("Author: " + author);
-        System.out.println("Price: " + cost);
+    void setTitle(String s) {
+        title = s;
     }
 }
 
-public class Solution {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-
-        String t = input.nextLine();
-        String a = input.nextLine();
-        int p = input.nextInt();
-
-        Book obj = new MyBook(t, a, p);
-        obj.display();
+public class Main {
+    public static void main(String []args) {
+        Scanner sc = new Scanner(System.in);
+        String titl = sc.nextLine();
+        MyBook new_novel = new MyBook();
+        new_novel.setTitle(titl);
+        System.out.println("The title is: " + new_novel.getTitle());
+        sc.close();
     }
 }
